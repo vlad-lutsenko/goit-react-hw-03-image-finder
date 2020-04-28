@@ -4,11 +4,18 @@ import styles from "../../utils/styles.module.css";
 
 const ImageGallery = ({ gallery }) => {
   return (
-    <ul className={styles.ImageGallery}>
-      {gallery.map(({ id, webformatURL }) => (
-        <ImageGalleryItem key={id} url={webformatURL} alt={id} />
-      ))}
-    </ul>
+    <>
+      <ul className={styles.ImageGallery}>
+        {gallery.map(({ id, webformatURL, largeImageURL }) => (
+          <ImageGalleryItem
+            key={id}
+            url={webformatURL}
+            alt={id}
+            largeImageURL={largeImageURL}
+          />
+        ))}
+      </ul>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-const KEY = "15871594-e6aabc3dbb9db4d877f262370";
+import KEY from "./key";
 
 const get = (query, page = 1) => {
   const response = axios.get(

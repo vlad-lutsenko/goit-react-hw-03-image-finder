@@ -3,9 +3,8 @@ import Searchbar from "../../Components/Searchbar/Searchbar";
 import get from "../../utils/axiosFunc";
 import ImageGallery from "../../Components/ImageGallery/ImageGallery";
 import Button from "../../Components/Button/Button";
-import Loader from "react-loader-spinner";
 
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import LoaderSection from "../../Components/LoaderSection/LoaderSection";
 
 class GalleryContainer extends Component {
   state = {
@@ -19,6 +18,8 @@ class GalleryContainer extends Component {
   searchBarInput = (query) => {
     this.setState({
       query,
+      page: 1,
+      gallery: [],
     });
   };
 
@@ -61,6 +62,11 @@ class GalleryContainer extends Component {
           gallery: [...state.gallery, ...result],
           isLoading: false,
         }));
+
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
+        });
       };
       request();
     }
@@ -73,20 +79,18 @@ class GalleryContainer extends Component {
   };
 
   render() {
-    const { gallery, isLoading } = this.state;
+    const { gallery, isLoading, error } = this.state;
     return (
       <>
         <Searchbar searchBarInput={this.searchBarInput} />
-
-        {!!gallery.length && (
+        {error && <h1>something gone wrong, try again later</h1>}
+        {!!gallery.length && !error && (
           <>
             <ImageGallery gallery={gallery} />
-            <Button pageChanger={this.pageChanger} />
+            {!isLoading && <Button pageChanger={this.pageChanger} />}
           </>
         )}
-        {isLoading && (
-          <Loader type="Puff" color="#00BFFF" height={100} width={100} />
-        )}
+        {isLoading && <LoaderSection />}
       </>
     );
   }
