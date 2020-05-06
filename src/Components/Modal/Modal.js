@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import styles from "../../utils/styles.module.css";
+import PropTypes from "prop-types";
 
-const Modal = ({ largeImageURL, closeModal }) => {
+const Modal = ({ closeModal, children }) => {
   const modalCloseFunc = (e) => {
     if (e.target.nodeName === "IMG") {
       return;
@@ -26,10 +27,13 @@ const Modal = ({ largeImageURL, closeModal }) => {
   return (
     <div className={styles.Overlay} onClick={modalCloseFunc}>
       <div className={styles.Modal}>
-        <img src={largeImageURL} alt="" />
+        <>{children}</>
       </div>
     </div>
   );
+};
+Modal.propTypes = {
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default Modal;

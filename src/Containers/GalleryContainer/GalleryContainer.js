@@ -4,7 +4,7 @@ import get from "../../utils/axiosFunc";
 import ImageGallery from "../../Components/ImageGallery/ImageGallery";
 import Button from "../../Components/Button/Button";
 
-import LoaderSection from "../../Components/LoaderSection/LoaderSection";
+import LoaderSection from "../../Components/Loader/Loader";
 
 class GalleryContainer extends Component {
   state = {
@@ -15,7 +15,7 @@ class GalleryContainer extends Component {
     error: false,
   };
 
-  searchBarInput = (query) => {
+  onChangeQuery = (query) => {
     this.setState({
       query,
       page: 1,
@@ -23,7 +23,7 @@ class GalleryContainer extends Component {
     });
   };
 
-  axiosRequest = async () => {
+  fetchRequest = async () => {
     try {
       const { query, page } = this.state;
       const response = await get(query, page);
@@ -43,7 +43,7 @@ class GalleryContainer extends Component {
         isLoading: true,
       });
       const request = async () => {
-        const result = await this.axiosRequest();
+        const result = await this.fetchRequest();
         this.setState({
           gallery: [...result],
           isLoading: false,
@@ -57,7 +57,7 @@ class GalleryContainer extends Component {
         isLoading: true,
       });
       const request = async () => {
-        const result = await this.axiosRequest();
+        const result = await this.fetchRequest();
         this.setState((state) => ({
           gallery: [...state.gallery, ...result],
           isLoading: false,
@@ -82,7 +82,7 @@ class GalleryContainer extends Component {
     const { gallery, isLoading, error } = this.state;
     return (
       <>
-        <Searchbar searchBarInput={this.searchBarInput} />
+        <Searchbar onChangeQuery={this.onChangeQuery} />
         {error && <h1>something gone wrong, try again later</h1>}
         {!!gallery.length && !error && (
           <>
